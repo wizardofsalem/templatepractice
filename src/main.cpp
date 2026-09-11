@@ -1,4 +1,5 @@
 #include <calMap.h>
+#include <containsType.h>
 #include <iostream>
 #include <type_traits>
 #include <vector>
@@ -48,6 +49,10 @@ int main() {
 
   auto ret = runtimeContains("my", vec);
 
+  std::tuple<> myTuple{};
+
+  std::cout << "compile contains type = "
+            << containsType<bool, decltype(myTuple)>::value << "\n";
   std::cout << "ret value = " << ret << "\n";
   return 0;
 }
