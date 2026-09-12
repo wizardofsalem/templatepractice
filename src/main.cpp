@@ -1,6 +1,8 @@
 #include <calMap.h>
 #include <containsType.h>
 #include <iostream>
+#include <printN.h>
+#include <tuple>
 #include <type_traits>
 #include <vector>
 
@@ -37,22 +39,26 @@ bool runtimeContains(const std::string &s, const std::vector<std::string> &v,
 
 int main() {
 
-  CalMap<int, int> cmapFull{};
-  CalMap<int, bool> cmapPartial{};
-  CalMap<float, double> cmapPrimaryDef{};
+  // CalMap<int, int> cmapFull{};
+  // CalMap<int, bool> cmapPartial{};
+  // CalMap<float, double> cmapPrimaryDef{};
+  //
+  // metaFunc<int>();
+  // metaFunc<int *>();
+  // metaFunc<int &>();
+  //
+  // std::vector<std::string> vec{"hello", "my", "name", "is", "aimee", "li"};
+  //
+  // auto ret = runtimeContains("my", vec);
+  //
+  // std::tuple<int, double, std::string> myTuple{};
+  //
+  // std::cout << "compile contains type = "
+  //           << containsType<bool, decltype(myTuple)>::value << "\n";
+  // std::cout << "ret value = " << ret << "\n";
 
-  metaFunc<int>();
-  metaFunc<int *>();
-  metaFunc<int &>();
+  auto myTuple = std::make_tuple(10, "hello", true, 3.14);
 
-  std::vector<std::string> vec{"hello", "my", "name", "is", "aimee", "li"};
-
-  auto ret = runtimeContains("my", vec);
-
-  std::tuple<> myTuple{};
-
-  std::cout << "compile contains type = "
-            << containsType<bool, decltype(myTuple)>::value << "\n";
-  std::cout << "ret value = " << ret << "\n";
+  print_tuple(myTuple);
   return 0;
 }
