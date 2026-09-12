@@ -57,8 +57,10 @@ int main() {
   //           << containsType<bool, decltype(myTuple)>::value << "\n";
   // std::cout << "ret value = " << ret << "\n";
 
-  auto myTuple = std::make_tuple(10, "hello", true, 3.14);
+  std::string a = "hee";
+  std::string b = std::move(a);
+  std::string c = std::move(a);
 
-  print_tuple(myTuple);
+  std::cout << "b = " << b << ", c = " << c << "\n";
   return 0;
 }
