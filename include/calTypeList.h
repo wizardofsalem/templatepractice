@@ -66,7 +66,22 @@ struct back<CalTypeList<First, Rest...>> : back<CalTypeList<Rest...>> {};
 
 template <IsCalTypeList List> using back_t = back<List>::type;
 
-static_assert(std::is_same_v<back<CalTypeList<int, bool, float>>::type, float>);
+static_assert(std::is_same_v<back_t<CalTypeList<int, bool, float>>, float>);
+
+///////////////PUSH_BACK//////////////////////
+
+template <IsCalTypeList List, typename TToPush> struct cal_push_back;
+
+template <typename... Ts, typename LastT>
+struct cal_push_back<CalTypeList<Ts...>, LastT> {
+  using type = CalTypeList<Ts..., LastT>;
+};
+
+template <IsCalTypeList List, typename TToPush>
+using cal_push_back_t = cal_push_back<List, TToPush>::type;
+
+static_assert(std::is_same_v<CalTypeList<int, float>,
+                             cal_push_back_t<CalTypeList<int>, float>>);
 
 template <typename Search, IsCalTypeList List>
 struct cal_contains
