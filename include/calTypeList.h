@@ -55,12 +55,18 @@ struct pop_front<CalTypeList<T0, Rest...>> {
 template <IsCalTypeList T> using pop_front_t = pop_front<T>::type;
 
 // back
-template <IsCalTypeList T> struct back {};
+template <IsCalTypeList List> struct back;
 
-template <typename T0, typename... T1toN>
-struct back<CalTypeList<T0, T1toN...>> {
+template <typename T0> struct back<CalTypeList<T0>> {
   using type = T0;
 };
+
+template <typename First, typename... Rest>
+struct back<CalTypeList<First, Rest...>> : back<CalTypeList<Rest...>> {};
+
+template <IsCalTypeList List> using back_t = back<List>::type;
+
+static_assert(std::is_same_v<back<CalTypeList<int, bool, float>>::type, float>);
 
 template <typename Search, IsCalTypeList List>
 struct cal_contains
@@ -75,3 +81,21 @@ struct cal_contains<Search, CalTypeList<>> : std::false_type {};
 
 static_assert(
     cal_contains<double, CalTypeList<float, double, int, unsigned int>>());
+
+template <std::size_t index, IsCalTypeList List> struct is_index_in_range {
+  static constexpr bool value = false;
+};
+
+/////////////////////////////AT//////////////////////
+template <std::size_t index, IsCalTypeList List> struct cal_at {
+  using type = cal_at<index - 1, pop_front_t<List>>::type;
+};
+
+template <IsCalTypeList List> struct cal_at<0, List> {
+  using type = front_t<List>;
+};
+
+template <std::size_t index, IsCalTypeList List>
+using cal_at_t = cal_at<index, List>::type;
+
+static_assert(std::is_same_v<cal_at<1, CalTypeList<bool, int>>::type, int>);
